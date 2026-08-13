@@ -1,0 +1,13 @@
+.danger {
+  height: 42px;
+  border: 1px solid #f1b8b8;
+  background: #fff;
+  color: #d44a4a;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.primary:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>测试资源管理</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="database.css" />
+  <link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+  <section id="loginScreen" class="login-screen show">
+    <div class="login-brand"><b>T</b><div><strong>测试资源管理</strong><small>TEST ASSET HUB</small></div></div>
+    <div class="login-card">
+      <div class="login-copy"><span>LOCAL ASSET MANAGEMENT</span><h1>测试资源，一处管理</h1><p>统一查看 LB、Socket、测试机、DC线与封装厂寄送记录。</p></div>
+      <div class="account-options">
+        <button class="account-card admin-account" id="adminLoginChoice"><i>管</i><div><strong>管理员登录</strong><small>拥有新增、编辑、寄送和版本发布权限</small></div><b>›</b></button>
+        <button class="account-card" id="guestLogin"><i>访</i><div><strong>临时访问</strong><small>无需密码，仅可查看系统资料</small></div><b>›</b></button>
+      </div>
+      <form id="loginForm" class="login-form hidden">
+        <label>管理员账号<input name="username" value="admin" autocomplete="username" required /></label>
+        <label>管理员密码<input name="password" type="password" placeholder="请输入密码" autocomplete="current-password" required /></label>
+        <div><button type="button" id="backToAccounts" class="outline">返回</button><button class="primary">登录系统</button></div>
+      </form>
+      <p class="login-note">本地系统 · 数据保存在当前电脑</p>
+    </div>
+  </section>
+  <div class="app locked">
+    <aside class="sidebar">
+      <div class="brand"><b>T</b><div><strong>测试资源管理</strong><small>TEST ASSET HUB</small></div></div>
+      <nav id="nav"></nav>
+      <button class="profile" id="logoutButton"><span id="profileAvatar">管</span><div><strong id="profileName">管理员</strong><small id="profileRole">完整权限 · 点击退出</small></div></button>
+    </aside>
+    <main>
+      <header>
+        <div><small id="breadcrumb">测试资源管理 / 资产总览</small><h1 id="pageTitle">资产总览</h1></div>
+        <div class="header-actions">
+          <label class="search">⌕<input id="search" placeholder="搜索产品、资产编号或封装厂" /></label>
+          <button class="primary" data-open="add">＋ 新增资产</button>
+          <button class="outline" data-open="ship">↗ 登记寄送</button>
+        </div>
+      </header>
+      <div id="view"></div>
+    </main>
+  </div>
+  <div id="modalRoot"></div>
+  <div id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnpm-store/
+.openai/
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/.vinext/
+/out/
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+/dist/
+/.wrangler/
+/outputs/
+/work/
+
+# Local application runtime data
+/prototype/data/*.db
+/prototype/data/*.db-*
+/prototype/uploads/*
+!/prototype/uploads/.gitkeep
+/prototype/*.cookies
+/prototype/__pycache__/
+
+# Unused web starter scaffold retained outside the local prototype
+/app/
+/build/
+/db/
+/drizzle/
+/examples/
+/public/
+/tests/
+/worker/
+/drizzle.config.ts
+/eslint.config.mjs
+/next-env.d.ts
+/next.config.ts
+/package.json
+/package-lock.json
+/postcss.config.mjs
+/tsconfig.json
+/vite.config.ts
