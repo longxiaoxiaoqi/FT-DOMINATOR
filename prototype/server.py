@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import cgi
 import json
 import mimetypes
 import os
@@ -8,6 +7,7 @@ import sqlite3
 import sys
 import urllib.parse
 import secrets
+from email.message import Message
 from datetime import datetime
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -43,6 +43,14 @@ def connection() -> sqlite3.Connection:
     db.row_factory = sqlite3.Row
     db.execute("PRAGMA foreign_keys = ON")
     return db
+
+
+def parse_header(value: str):
+    """Parse a MIME-style header without the removed Python cgi module."""
+    message = Message()
+    message["content-type"] = value
+    params = message.get_params(header="content-type", unquote=True) or []
+    return (params[0][0] if params else value), dict(params[1:])
 
 
 def init_db() -> None:
@@ -121,6 +129,10 @@ def init_db() -> None:
                 "INSERT INTO releases(version,title,content,released_at) VALUES(?,?,?,?)",
                 ("v0.1.0", "首个可操作原型", "完成 LB、Socket、测试机、DC线的资产总览、封装厂查看、产品配套、寄送记录和图纸资料界面。", "2026-08-06"),
             )
+        db.execute(
+            "INSERT OR IGNORE INTO releases(version,title,content,released_at) VALUES(?,?,?,?)",
+            ("v0.2.1", "本地启动修复", "修复服务停止后网站无法打开的问题；新增一键启动脚本，自动启动本地服务并打开浏览器；兼容新版 Python。", "2026-08-19"),
+        )
         db.execute("PRAGMA optimize")
 
 
@@ -178,7 +190,7 @@ class AppHandler(SimpleHTTPRequestHandler):
 
     def read_multipart(self):
         content_type = self.headers.get("Content-Type", "")
-        _, params = cgi.parse_header(content_type)
+        _, params = parse_header(content_type)
         boundary = params.get("boundary")
         if not boundary:
             raise ValueError("缺少上传边界")
@@ -195,7 +207,7 @@ class AppHandler(SimpleHTTPRequestHandler):
             content = content.rstrip(b"\r\n")
             header_text = raw_headers.decode("utf-8", "replace")
             disposition = next((line for line in header_text.split("\r\n") if line.lower().startswith("content-disposition:")), "")
-            _, disp_params = cgi.parse_header(disposition.split(":", 1)[1].strip() if ":" in disposition else "")
+            _, disp_params = parse_header(disposition.split(":", 1)[1].strip() if ":" in disposition else "")
             name = disp_params.get("name", "")
             filename = disp_params.get("filename")
             if filename is not None:
