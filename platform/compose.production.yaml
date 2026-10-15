@@ -1,0 +1,32 @@
+# Standalone production stack; do not merge with compose.yaml.
+services:
+  ft:
+    build: .
+    restart: unless-stopped
+    environment:
+      FT_ALLOWED_HOSTS: ${FT_DOMAIN:?Set FT_DOMAIN in deploy.env}
+      FT_HTTPS: "1"
+      FT_TRUST_PROXY: "1"
+      # No published application port; only Caddy shares this network.
+      FT_PROXY_IP: "*"
+      FT_CSRF_ORIGINS: https://${FT_DOMAIN:?Set FT_DOMAIN in deploy.env}
+    volumes:
+      - ft-data:/data
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - ft
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      FT_DOMAIN: ${FT_DOMAIN:?Set FT_DOMAIN in deploy.env}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+volumes:
+  ft-data:
+  caddy-data:
+  caddy-config:

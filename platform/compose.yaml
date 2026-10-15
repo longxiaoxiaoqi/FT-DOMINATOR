@@ -1,0 +1,15 @@
+services:
+  ft:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4180:4180"
+    environment:
+      FT_ALLOWED_HOSTS: ${FT_ALLOWED_HOSTS:-localhost,127.0.0.1}
+      FT_HTTPS: ${FT_HTTPS:-0}
+      FT_TRUST_PROXY: ${FT_TRUST_PROXY:-0}
+      FT_CSRF_ORIGINS: ${FT_CSRF_ORIGINS:-}
+    volumes:
+      - ft-data:/data
+volumes:
+  ft-data:

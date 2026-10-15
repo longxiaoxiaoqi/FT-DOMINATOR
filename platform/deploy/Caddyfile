@@ -1,0 +1,5 @@
+{$FT_DOMAIN} {
+    reverse_proxy ft:4180 {
+        header_up X-Forwarded-Proto {scheme}
+    }
+}

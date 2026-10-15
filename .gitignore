@@ -67,3 +67,18 @@ yarn-error.log*
 /postcss.config.mjs
 /tsconfig.json
 /vite.config.ts
+
+# FT platform local runtime (independent from legacy prototype)
+/platform/.venv/
+/platform/runtime/
+/platform/staticfiles/
+/platform/**/__pycache__/
+/platform/**/*.pyc
+/platform/deploy.env
+/platform/.compose-backup.lock
+
+# Isolated QA runs contain databases, uploads, session data and local keys.
+/.artifact_work/
+
+# Microsoft Office temporary lock files.
+~$*
